@@ -37,17 +37,6 @@
         microsoftTeams.getContext(function (context) {
             themeChanged(context.theme);
         });
-
-        // Configure the save event
-        microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
-            // Save the settings for the tab and notify of success
-            microsoftTeams.settings.setSettings({
-                contentUrl: "https://localhost:8443/app/tab.html",
-                suggestedDisplayName: "Tab Theme Sample",
-                websiteUrl: "https://localhost:8443/"
-            });
-            saveEvent.notifySuccess();
-        });
     </script>
 </body>
 </html>
