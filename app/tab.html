@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link id="themeCSS" href="https://statics.teams.microsoft.com/hashedcss/stylesheets.min-e05e0092.css" rel="stylesheet" />
+    <style>
+    body {
+        opacity: 1.0;
+    }
+    </style>
+</head>
+<body class="ts-middle">
+    <h1 id="theme"></h1>
+    <script src="https://statics.teams.microsoft.com/sdk/v0.2/js/MicrosoftTeams.min.js"></script>
+    <script type="text/javascript">
+        // Setup themes
+        var themedStyleSheets = [];
+        themedStyleSheets.push("https://statics.teams.microsoft.com/hashedcss/stylesheets.min-e05e0092.css");
+        themedStyleSheets.push("https://statics.teams.microsoft.com/hashedcss/stylesheets.theme-contrast.min-669e1eed.css");
+        themedStyleSheets.push("https://statics.teams.microsoft.com/hashedcss/stylesheets.theme-dark.min-fe14eeb8.css");
+
+        // Create themeChange event to register later
+        var themeChanged = function (theme) {
+            document.getElementById("theme").innerText = theme;
+            if (theme === "default") 
+                document.getElementById("themeCSS").setAttribute("href", themedStyleSheets[0]);
+            else if (theme === "contrast") 
+                document.getElementById("themeCSS").setAttribute("href", themedStyleSheets[1]);
+            else if (theme === "dark") 
+                document.getElementById("themeCSS").setAttribute("href", themedStyleSheets[2]);
+        };
+
+        // Initialize microsoft teams tab library and register for theme change handler
+        microsoftTeams.initialize();
+        microsoftTeams.registerOnThemeChangeHandler(themeChanged);
+        microsoftTeams.getContext(function (context) {
+            themeChanged(context.theme);
+        });
+
+        // Configure the save event
+        microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+            // Save the settings for the tab and notify of success
+            microsoftTeams.settings.setSettings({
+                contentUrl: "https://localhost:8443/app/tab.html",
+                suggestedDisplayName: "Tab Theme Sample",
+                websiteUrl: "https://localhost:8443/"
+            });
+            saveEvent.notifySuccess();
+        });
+    </script>
+</body>
+</html>
